@@ -1,0 +1,10 @@
+@import "../../style/base/index";
+
+.recipe-load {
+  &__submit {
+    button {
+      padding-top: 12px;
+      padding-bottom: 12px;
+    }
+  }
+}

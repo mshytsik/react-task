@@ -1,0 +1,15 @@
+@import "../../style/base/index";
+
+.recipe-form {
+  &__submit {
+    button {
+      margin-top: 20px;
+      padding-top: 12px;
+      padding-bottom: 12px;
+
+      @include media-breakpoint-down("md") {
+        margin-top: 0;
+      }
+    }
+  }
+}

@@ -1,0 +1,28 @@
+@import "@fontsource/montserrat/400";
+@import "@fontsource/montserrat/600";
+@import "@fontsource/montserrat/700";
+
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #ffffff;
+
+  * {
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Montserrat", sans-serif !important;
+    font-weight: 400;
+    color: #000000;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
+  }
+}

@@ -1,0 +1,123 @@
+@import "../../style/base/index";
+
+.recipe-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  &__body {
+    width: calc(100% - 180px);
+
+    @include media-breakpoint-down("md") {
+      width: calc(100% - 140px);
+    }
+
+    @include media-breakpoint-down("sm") {
+      width: calc(100% - 120px);
+    }
+  }
+
+  &__name {
+    display: inline-block;
+    padding-bottom: 20px;
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 40px;
+    color: $primary-color;
+    transition: opacity 0.3s;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.6;
+    }
+
+    @include media-breakpoint-down("md") {
+      padding-bottom: 10px;
+      font-size: 24px;
+      line-height: 32px;
+    }
+
+    @include media-breakpoint-down("sm") {
+      font-size: 20px;
+      line-height: 24px;
+    }
+  }
+
+  &__tags {
+    margin-top: 10px;
+    font-size: 16px;
+    line-height: 20px;
+
+    span {
+      font-weight: 600;
+    }
+
+    @include media-breakpoint-down("md") {
+      margin-top: 5px;
+      font-size: 14px;
+      line-height: 18px;
+    }
+  }
+
+  .country {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+
+    @include media-breakpoint-down("md") {
+      margin-top: 5px;
+    }
+
+    &__name {
+      font-size: 16px;
+      line-height: 20px;
+
+      span {
+        font-weight: 700;
+        color: $primary-color;
+      }
+
+      @include media-breakpoint-down("md") {
+        font-size: 14px;
+        line-height: 18px;
+      }
+    }
+
+    &__icon {
+      width: 30px;
+      height: 30px;
+      margin-left: 10px;
+      border-radius: 50%;
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+  }
+
+  &__image {
+    display: block;
+    flex-shrink: 0;
+    width: 150px;
+    height: 150px;
+    border-radius: 10px;
+    background-position: center;
+    background-size: cover;
+    transition: opacity 0.3s;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.6;
+    }
+
+    @include media-breakpoint-down("md") {
+      width: 120px;
+      height: 120px;
+      margin-left: 20px;
+    }
+
+    @include media-breakpoint-down("sm") {
+      width: 100px;
+      height: 100px;
+    }
+  }
+}

@@ -1,0 +1,66 @@
+@import "./style/base/index";
+
+.recipe-book {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-image: url(./images/bg.jpg);
+  background-position: center;
+  background-size: cover;
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  &__content {
+    position: relative;
+    width: 800px;
+    max-width: calc(100% - 40px);
+    max-height: 90vh;
+    padding: 40px;
+    border-radius: 20px;
+    background-color: #ffffff;
+    overflow: auto;
+
+    @include media-breakpoint-down("md") {
+      max-height: calc(100vh - 40px);
+      padding: 20px;
+      border-radius: 10px;
+    }
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+
+    &__menu {
+      display: flex;
+      gap: 10px;
+
+      @include media-breakpoint-down("md") {
+        flex-direction: column;
+
+        button {
+          width: 100%;
+        }
+      }
+    }
+
+    @include media-breakpoint-down("sm") {
+      flex-direction: column;
+    }
+  }
+
+  &__body {
+    margin-top: 40px;
+  }
+}
