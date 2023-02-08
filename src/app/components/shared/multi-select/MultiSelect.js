@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import {
   FormControl,
   OutlinedInput,
@@ -51,3 +52,15 @@ const MultiSelect = ({ id, label, allValues, selectedValues, callback }) => {
 };
 
 export default MultiSelect;
+
+MultiSelect.propTypes = {
+  id: PropTypes.string.isRequired,
+  label: PropTypes.string,
+  allValues: PropTypes.arrayOf(PropTypes.string).isRequired,
+  selectedValues: PropTypes.arrayOf(PropTypes.string).isRequired,
+  callback: PropTypes.func.isRequired,
+};
+
+MultiSelect.defaultProps = {
+  label: "",
+};

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import PropTypes from "prop-types";
 
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -15,7 +16,7 @@ import { Button, ControlTextField } from "../shared";
 
 import "./RecipeForm.scss";
 
-const RecipeForm = ({ action = "add" }) => {
+const RecipeForm = ({ action }) => {
   let { id } = useParams();
   let recipes = useSelector(selectRecipes);
   let base = useSelector(selectBase);
@@ -51,7 +52,7 @@ const RecipeForm = ({ action = "add" }) => {
 
   useEffect(() => {
     if (action === "edit") {
-      setDefaultRecipe(recipes.find((item) => item?.id === Number(id)));
+      setDefaultRecipe(recipes.find((item) => item.id === Number(id)));
     } else if (isLoad) {
       setDefaultRecipe(base.recipe.value);
     }
@@ -78,10 +79,10 @@ const RecipeForm = ({ action = "add" }) => {
 
   const onSubmit = (data) => {
     const recipe = { ...data };
-    recipe.tags = data?.tags?.split(", ");
-    recipe.ingredients = data?.ingredients?.split(", ");
-    recipe.instructions = data?.instructions
-      ?.split("\n")
+    recipe.tags = data.tags.split(", ");
+    recipe.ingredients = data.ingredients.split(", ");
+    recipe.instructions = data.instructions
+      .split("\n")
       .filter((line) => line.length);
 
     if (action === "edit") {
@@ -114,7 +115,7 @@ const RecipeForm = ({ action = "add" }) => {
         label="Name"
         isRequired
         maxLength={40}
-        error={errors?.name ?? null}
+        error={errors.name}
       />
 
       <ControlTextField
@@ -123,7 +124,7 @@ const RecipeForm = ({ action = "add" }) => {
         label="Tags"
         isRequired
         maxLength={120}
-        error={errors?.tags ?? null}
+        error={errors.tags}
         helperText="Divide your tags with commas and spaces: ', '"
       />
 
@@ -133,7 +134,7 @@ const RecipeForm = ({ action = "add" }) => {
         label="Country"
         isRequired
         maxLength={40}
-        error={errors?.country ?? null}
+        error={errors.country}
       />
 
       <ControlTextField
@@ -141,7 +142,7 @@ const RecipeForm = ({ action = "add" }) => {
         name="countryIcon"
         label="Country Icon"
         maxLength={120}
-        error={errors?.countryIcon ?? null}
+        error={errors.countryIcon}
       />
 
       <ControlTextField
@@ -150,7 +151,7 @@ const RecipeForm = ({ action = "add" }) => {
         label="Ingredients"
         isRequired
         maxLength={200}
-        error={errors?.ingredients ?? null}
+        error={errors.ingredients}
         helperText="Divide your ingredients with commas and spaces: ', '"
       />
 
@@ -160,7 +161,7 @@ const RecipeForm = ({ action = "add" }) => {
         label="Instructions"
         isRequired
         maxLength={2000}
-        error={errors?.instructions ?? null}
+        error={errors.instructions}
         helperText="Start each your instruction from new line"
       />
 
@@ -169,7 +170,7 @@ const RecipeForm = ({ action = "add" }) => {
         name="img"
         label="Image link"
         maxLength={120}
-        error={errors?.img ?? null}
+        error={errors.img}
       />
 
       <ControlTextField
@@ -177,7 +178,7 @@ const RecipeForm = ({ action = "add" }) => {
         name="video"
         label="Video link"
         maxLength={120}
-        error={errors?.video ?? null}
+        error={errors.video}
       />
 
       <FormControl
@@ -194,3 +195,11 @@ const RecipeForm = ({ action = "add" }) => {
 };
 
 export default RecipeForm;
+
+RecipeForm.propTypes = {
+  action: PropTypes.string,
+};
+
+RecipeForm.defaultProps = {
+  action: "add",
+};

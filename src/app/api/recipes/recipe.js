@@ -22,7 +22,7 @@ export const fetchRecipe = async ({ group, searchValue = "" }) => {
     let filterResult = await response.json();
 
     if (filterResult?.meals) {
-      let mealId = filterResult?.meals[0]?.idMeal;
+      let mealId = filterResult.meals[0]?.idMeal;
       let response = await fetch(
         `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${mealId}`
       );
@@ -37,7 +37,7 @@ export const fetchRecipe = async ({ group, searchValue = "" }) => {
 
   let data = {};
   if (result?.meals) {
-    let recipe = result?.meals[0];
+    let recipe = result.meals[0];
 
     let ingredients = [];
     for (let i = 1; i <= INGREDIENTS_MAX; i++) {
@@ -46,19 +46,19 @@ export const fetchRecipe = async ({ group, searchValue = "" }) => {
       }
     }
 
-    let instructions = recipe?.strInstructions?.split("\r\n");
+    let instructions = recipe.strInstructions?.split("\r\n") ?? [];
     instructions = instructions
       .map((line) => line.trim())
       .filter((line) => line.length);
 
     data = {
-      name: recipe?.strMeal,
-      tags: recipe?.strTags?.split(",") ?? [],
-      country: recipe?.strArea,
+      name: recipe.strMeal,
+      tags: recipe.strTags?.split(",") ?? [],
+      country: recipe.strArea,
       ingredients,
       instructions,
-      img: recipe?.strMealThumb,
-      video: recipe?.strYoutube?.replace("watch?v=", "embed/"),
+      img: recipe.strMealThumb,
+      video: recipe.strYoutube?.replace("watch?v=", "embed/"),
     };
   }
 

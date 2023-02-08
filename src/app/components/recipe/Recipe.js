@@ -9,52 +9,52 @@ import "./Recipe.scss";
 const Recipe = () => {
   let { id } = useParams();
   let recipes = useSelector(selectRecipes);
-  const recipe = recipes.find((recipe) => recipe?.id === Number(id));
+  const recipe = recipes.find((recipe) => recipe.id === Number(id));
 
   return (
     <div className="recipe">
       <div className="recipe__head recipe-head">
         <div className="recipe-head__meta">
-          {recipe?.name && <p className="recipe__name">{recipe?.name}</p>}
+          {recipe.name && <p className="recipe__name">{recipe.name}</p>}
 
-          {recipe?.tags && (
+          {recipe.tags && (
             <p className="recipe__list">
-              Tags: <span>{recipe?.tags?.join(", ")}</span>
+              Tags: <span>{recipe.tags.join(", ")}</span>
             </p>
           )}
 
-          {recipe?.country && (
+          {recipe.country && (
             <div className="recipe__country country">
               <p className="country__name">
-                Recipe from <span>{recipe?.country}</span>
+                Recipe from <span>{recipe.country}</span>
               </p>
-              {recipe?.countryIcon && (
+              {recipe.countryIcon && (
                 <div
                   className="country__icon"
-                  style={{ backgroundImage: `url(${recipe?.countryIcon})` }}
+                  style={{ backgroundImage: `url(${recipe.countryIcon})` }}
                 />
               )}
             </div>
           )}
 
-          {recipe?.ingredients && (
+          {recipe.ingredients && (
             <p className="recipe__list">
-              Ingredients: <span>{recipe?.ingredients?.join(", ")}</span>
+              Ingredients: <span>{recipe.ingredients.join(", ")}</span>
             </p>
           )}
         </div>
 
-        {recipe?.img && (
-          <img className="recipe__image" src={recipe?.img} alt={recipe?.name} />
+        {recipe.img && (
+          <img className="recipe__image" src={recipe.img} alt={recipe.name} />
         )}
       </div>
 
       <div className="recipe__body">
-        {recipe?.instructions && (
+        {recipe.instructions && (
           <>
             <p className="recipe__subtitle">Instructions</p>
             <div className="recipe__instructions instructions">
-              {recipe?.instructions?.map((item, index) => {
+              {recipe.instructions.map((item, index) => {
                 return (
                   <p className="instructions__step" key={index}>
                     <span>{`${index + 1}.`}</span>
@@ -66,12 +66,12 @@ const Recipe = () => {
           </>
         )}
 
-        {recipe?.video && (
+        {recipe.video && (
           <>
             <p className="recipe__subtitle">Video</p>
             <div className="recipe__video">
               <iframe
-                src={recipe?.video}
+                src={recipe.video}
                 allow="autoplay; fullscreen; picture-in-picture"
                 title="Video"
               />

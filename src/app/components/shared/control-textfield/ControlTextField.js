@@ -1,5 +1,6 @@
-import { FormControl, TextField } from "@mui/material";
+import PropTypes from "prop-types";
 import { Controller } from "react-hook-form";
+import { FormControl, TextField } from "@mui/material";
 
 const ControlTextField = ({
   control,
@@ -7,7 +8,7 @@ const ControlTextField = ({
   label,
   isRequired,
   maxLength,
-  helperText = "",
+  helperText,
   error,
 }) => {
   const rules = { required: isRequired };
@@ -46,3 +47,19 @@ const ControlTextField = ({
 };
 
 export default ControlTextField;
+
+ControlTextField.propTypes = {
+  control: PropTypes.object.isRequired,
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string,
+  isRequired: PropTypes.bool,
+  maxLength: PropTypes.number,
+  helperText: PropTypes.string,
+  error: PropTypes.object,
+};
+
+ControlTextField.defaultProps = {
+  label: "",
+  helperText: "",
+  error: null,
+};

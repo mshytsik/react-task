@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import {
   Box,
   TextField,
@@ -11,7 +12,7 @@ import {
 
 import "./RecipesSearch.scss";
 
-const RecipesSearch = ({ value, setValue, type, setType, className }) => {
+const RecipesSearch = ({ setValue, type, setType, className }) => {
   const handleChangeValue = (event) => setValue(event.target.value);
 
   const handleChangeType = (event) => setType(event.target.value);
@@ -30,7 +31,6 @@ const RecipesSearch = ({ value, setValue, type, setType, className }) => {
         <TextField
           id="search-input"
           label="Search"
-          value={value}
           onChange={handleChangeValue}
           size="small"
         />
@@ -58,3 +58,14 @@ const RecipesSearch = ({ value, setValue, type, setType, className }) => {
 };
 
 export default RecipesSearch;
+
+RecipesSearch.propTypes = {
+  setValue: PropTypes.func.isRequired,
+  type: PropTypes.string.isRequired,
+  setType: PropTypes.func.isRequired,
+  className: PropTypes.string,
+};
+
+RecipesSearch.defaultProps = {
+  className: "",
+};

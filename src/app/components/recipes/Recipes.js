@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
+
 import { useSelector } from "react-redux";
 import { selectRecipes } from "../../store/recipesReducer";
 
@@ -20,14 +22,14 @@ const Recipes = ({ showNav }) => {
   let recipes = useSelector(selectRecipes);
 
   const inNames = (recipe) =>
-    !filterNames.length || filterNames.includes(recipe?.name);
+    !filterNames.length || filterNames.includes(recipe.name);
 
   const inTags = (recipe) =>
     !filterTags.length ||
-    !recipe?.tags?.every((tag) => !filterTags.includes(tag));
+    !recipe.tags.every((tag) => !filterTags.includes(tag));
 
   const inCountries = (recipe) =>
-    !filterCountries.length || filterCountries.includes(recipe?.country);
+    !filterCountries.length || filterCountries.includes(recipe.country);
 
   const inSearch = (recipe) => {
     if (searchValue.length) {
@@ -36,8 +38,8 @@ const Recipes = ({ showNav }) => {
           .toLowerCase()
           .includes(searchValue.toLowerCase());
       } else if (searchType === "tag") {
-        return !recipe.tags?.every(
-          (tag) => !tag.toLowerCase().includes(searchValue?.toLowerCase())
+        return !recipe.tags.every(
+          (tag) => !tag.toLowerCase().includes(searchValue.toLowerCase())
         );
       }
     }
@@ -59,9 +61,12 @@ const Recipes = ({ showNav }) => {
           <RecipesFilter
             className="recipes-nav__item"
             filter={{
-              name: [filterNames, setFilterNames],
-              tag: [filterTags, setFilterTags],
-              country: [filterCountries, setFilterCountries],
+              names: filterNames,
+              setNames: setFilterNames,
+              tags: filterTags,
+              setTags: setFilterTags,
+              countries: filterCountries,
+              setCountries: setFilterCountries,
             }}
           />
 
@@ -88,3 +93,7 @@ const Recipes = ({ showNav }) => {
 };
 
 export default Recipes;
+
+Recipes.propTypes = {
+  showNav: PropTypes.bool.isRequired,
+};
