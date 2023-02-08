@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {
   selectBase,
-  getBaseGroups,
+  getBaseGroup,
   getBaseRecipe,
 } from "../../store/recipesReducer";
 
@@ -32,33 +32,58 @@ const RecipeLoad = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getBaseGroups());
-  }, [dispatch]);
+    if (base.groups.category.status === "loaded") {
+      setCategory(base.groups.category.list[0]);
+    }
+  }, [base.groups.category]);
 
   useEffect(() => {
-    if (base?.groups?.status === "loaded") {
-      setCategory(base?.groups?.category[0]);
-      setIngredient(base?.groups?.ingredient[0]);
-      setCountry(base?.groups?.country[0]);
+    if (base.groups.ingredient.status === "loaded") {
+      setIngredient(base.groups.ingredient.list[0]);
     }
-  }, [base]);
+  }, [base.groups.ingredient]);
 
-  const handleChangeSelect = (event, callback) => {
+  useEffect(() => {
+    if (base.groups.country.status === "loaded") {
+      setCountry(base.groups.country.list[0]);
+    }
+  }, [base.groups.country]);
+
+  const handleChangeGroupSelect = (event, callback) =>
     callback(event.target.value);
+
+  const handleChangeGroup = (event) => {
+    const groupValue = event.target.value;
+    setGroup(groupValue);
+
+    if (
+      groupValue !== "random" &&
+      base.groups[groupValue].status !== "loaded"
+    ) {
+      dispatch(getBaseGroup(groupValue));
+    }
   };
 
   const handleSubmit = () => {
-    const searchValue =
-      group === "category"
-        ? category
-        : group === "ingredient"
-        ? ingredient
-        : group === "country"
-        ? country
-        : "";
+    if (group === "random" || base.groups[group].status === "loaded") {
+      let searchValue;
+      switch (group) {
+        case "category":
+          searchValue = category;
+          break;
+        case "ingredient":
+          searchValue = ingredient;
+          break;
+        case "country":
+          searchValue = country;
+          break;
+        default:
+          searchValue = "";
+      }
 
-    dispatch(getBaseRecipe({ group, searchValue }));
-    navigate("/add?load");
+      dispatch(getBaseRecipe({ group, searchValue }));
+      navigate("/add?load");
+    }
   };
 
   return (
@@ -74,7 +99,7 @@ const RecipeLoad = () => {
         <Select
           value={group}
           label="Search by"
-          onChange={(event) => handleChangeSelect(event, setGroup)}
+          onChange={(event) => handleChangeGroup(event)}
         >
           <MenuItem value="random">Random meal</MenuItem>
           <MenuItem value="category">Category</MenuItem>
@@ -83,59 +108,63 @@ const RecipeLoad = () => {
         </Select>
       </FormControl>
 
-      {base?.groups?.status === "loaded" && (
-        <>
-          <Collapse in={group === "category"}>
-            <FormControl fullWidth sx={{ mb: "20px" }}>
-              <InputLabel>Category</InputLabel>
-              <Select
-                value={category}
-                label="Category"
-                onChange={(event) => handleChangeSelect(event, setCategory)}
-              >
-                {base?.groups?.category?.map((item) => (
-                  <MenuItem key={item} value={item}>
-                    {item}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Collapse>
+      {base.groups.category.status === "loaded" && (
+        <Collapse in={group === "category"}>
+          <FormControl fullWidth sx={{ mb: "20px" }}>
+            <InputLabel>Category</InputLabel>
+            <Select
+              value={category}
+              label="Category"
+              onChange={(event) => handleChangeGroupSelect(event, setCategory)}
+            >
+              {base.groups.category.list.map((item) => (
+                <MenuItem key={item} value={item}>
+                  {item}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Collapse>
+      )}
 
-          <Collapse in={group === "ingredient"}>
-            <FormControl fullWidth sx={{ mb: "20px" }}>
-              <InputLabel>Ingredient</InputLabel>
-              <Select
-                value={ingredient}
-                label="Ingredient"
-                onChange={(event) => handleChangeSelect(event, setIngredient)}
-              >
-                {base?.groups?.ingredient?.map((item) => (
-                  <MenuItem key={item} value={item}>
-                    {item}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Collapse>
+      {base.groups.ingredient.status === "loaded" && (
+        <Collapse in={group === "ingredient"}>
+          <FormControl fullWidth sx={{ mb: "20px" }}>
+            <InputLabel>Ingredient</InputLabel>
+            <Select
+              value={ingredient}
+              label="Ingredient"
+              onChange={(event) =>
+                handleChangeGroupSelect(event, setIngredient)
+              }
+            >
+              {base.groups.ingredient.list.map((item) => (
+                <MenuItem key={item} value={item}>
+                  {item}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Collapse>
+      )}
 
-          <Collapse in={group === "country"}>
-            <FormControl fullWidth sx={{ mb: "20px" }}>
-              <InputLabel>Country</InputLabel>
-              <Select
-                value={country}
-                label="Country"
-                onChange={(event) => handleChangeSelect(event, setCountry)}
-              >
-                {base?.groups?.country?.map((item) => (
-                  <MenuItem key={item} value={item}>
-                    {item}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Collapse>
-        </>
+      {base.groups.country.status === "loaded" && (
+        <Collapse in={group === "country"}>
+          <FormControl fullWidth sx={{ mb: "20px" }}>
+            <InputLabel>Country</InputLabel>
+            <Select
+              value={country}
+              label="Country"
+              onChange={(event) => handleChangeGroupSelect(event, setCountry)}
+            >
+              {base.groups.country.list.map((item) => (
+                <MenuItem key={item} value={item}>
+                  {item}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Collapse>
       )}
 
       <FormControl

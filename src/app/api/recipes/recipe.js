@@ -1,9 +1,21 @@
 export const fetchRecipe = async ({ group, searchValue = "" }) => {
   let result;
 
+  const INGREDIENTS_MAX = 20;
+
   if (group !== "random") {
-    let linkLetter =
-      group === "category" ? "c" : group === "ingredient" ? "i" : "a";
+    let linkLetter;
+    switch (group) {
+      case "category":
+        linkLetter = "c";
+        break;
+      case "ingredient":
+        linkLetter = "i";
+        break;
+      default:
+        linkLetter = "a";
+    }
+
     let response = await fetch(
       `https://www.themealdb.com/api/json/v1/1/filter.php?${linkLetter}=${searchValue}`
     );
@@ -28,14 +40,13 @@ export const fetchRecipe = async ({ group, searchValue = "" }) => {
     let recipe = result?.meals[0];
 
     let ingredients = [];
-    for (let i = 1; i <= 20; i++) {
+    for (let i = 1; i <= INGREDIENTS_MAX; i++) {
       if (recipe[`strIngredient${i}`]) {
         ingredients.push(recipe[`strIngredient${i}`]);
       }
     }
 
-    let instructions = [];
-    instructions = recipe?.strInstructions?.split("\r\n");
+    let instructions = recipe?.strInstructions?.split("\r\n");
     instructions = instructions
       .map((line) => line.trim())
       .filter((line) => line.length);

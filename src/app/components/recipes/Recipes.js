@@ -19,44 +19,38 @@ const Recipes = ({ showNav }) => {
 
   let recipes = useSelector(selectRecipes);
 
-  recipes = recipes.filter((recipe) => {
-    if (filterNames.length && !filterNames.includes(recipe?.name)) {
-      return false;
-    }
+  const inNames = (recipe) =>
+    !filterNames.length || filterNames.includes(recipe?.name);
 
-    if (
-      filterTags.length &&
-      recipe?.tags?.every((tag) => !filterTags.includes(tag))
-    ) {
-      return false;
-    }
+  const inTags = (recipe) =>
+    !filterTags.length ||
+    !recipe?.tags?.every((tag) => !filterTags.includes(tag));
 
-    if (filterCountries.length && !filterCountries.includes(recipe?.country)) {
-      return false;
-    }
+  const inCountries = (recipe) =>
+    !filterCountries.length || filterCountries.includes(recipe?.country);
 
+  const inSearch = (recipe) => {
     if (searchValue.length) {
       if (searchType === "name" || searchType === "country") {
-        if (
-          !recipe[searchType]
-            ?.toLowerCase()
-            .includes(searchValue?.toLowerCase())
-        ) {
-          return false;
-        }
+        return recipe[searchType]
+          .toLowerCase()
+          .includes(searchValue.toLowerCase());
       } else if (searchType === "tag") {
-        if (
-          recipe?.tags?.every(
-            (tag) => !tag.toLowerCase().includes(searchValue?.toLowerCase())
-          )
-        ) {
-          return false;
-        }
+        return !recipe.tags?.every(
+          (tag) => !tag.toLowerCase().includes(searchValue?.toLowerCase())
+        );
       }
     }
-
     return true;
-  });
+  };
+
+  recipes = recipes.filter(
+    (recipe) =>
+      inNames(recipe) &&
+      inTags(recipe) &&
+      inCountries(recipe) &&
+      inSearch(recipe)
+  );
 
   return (
     <div className="recipes">

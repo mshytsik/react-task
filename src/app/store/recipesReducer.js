@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-import { fetchGroups } from "../api/recipes/groups";
+import { fetchGroup } from "../api/recipes/group";
 import { fetchRecipe } from "../api/recipes/recipe";
 
 import { getStorageList } from "../utils/storage";
@@ -9,10 +9,18 @@ const initialState = {
   list: getStorageList("recipes"),
   base: {
     groups: {
-      category: [],
-      ingredient: [],
-      country: [],
-      status: "empty",
+      category: {
+        list: [],
+        status: "empty",
+      },
+      ingredient: {
+        list: [],
+        status: "empty",
+      },
+      country: {
+        list: [],
+        status: "empty",
+      },
     },
     recipe: {
       value: {},
@@ -25,9 +33,8 @@ export const selectRecipes = (state) => state.recipes.list;
 
 export const selectBase = (state) => state.recipes.base;
 
-export const getBaseGroups = createAsyncThunk(
-  "recipes/base/getGroups",
-  fetchGroups
+export const getBaseGroup = createAsyncThunk("recipes/base/getGroup", (group) =>
+  fetchGroup(group)
 );
 
 export const getBaseRecipe = createAsyncThunk(
@@ -53,12 +60,9 @@ export const recipesSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getBaseGroups.pending, (state) => {
-        state.base.groups.status = "loading";
-      })
-      .addCase(getBaseGroups.fulfilled, (state, action) => {
-        state.base.groups = action.payload;
-        state.base.groups.status = "loaded";
+      .addCase(getBaseGroup.fulfilled, (state, action) => {
+        state.base.groups[action.payload.group].list = action.payload.values;
+        state.base.groups[action.payload.group].status = "loaded";
       })
       .addCase(getBaseRecipe.pending, (state) => {
         state.base.recipe.status = "loading";
