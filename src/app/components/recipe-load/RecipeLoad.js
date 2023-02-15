@@ -99,6 +99,7 @@ const RecipeLoad = () => {
         <Select
           value={group}
           label="Search by"
+          data-testid="search-type"
           onChange={(event) => handleChangeGroup(event)}
         >
           <MenuItem value="random">Random meal</MenuItem>

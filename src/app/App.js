@@ -34,7 +34,7 @@ const App = () => {
   const handleFilter = () => setShowNav((showNav) => !showNav);
 
   return (
-    <div className="recipe-book">
+    <div className="recipe-book" data-testid="app">
       <div className="recipe-book__content" ref={scrollArea}>
         <header className="recipe-book__header header">
           <div className="header__menu">

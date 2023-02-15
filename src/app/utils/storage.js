@@ -1,5 +1,9 @@
 export const getStorageList = (name) => {
-  let values = JSON.parse(localStorage.getItem(name));
+  let values = localStorage.getItem(name);
+  if (values === undefined) {
+    return [];
+  }
+  values = JSON.parse(values);
   return Array.isArray(values) ? values : [];
 };
 
